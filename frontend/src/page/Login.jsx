@@ -23,7 +23,9 @@ import { Lock, MessageCircleHeart } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "sonner";
-
+import { useContext, useEffect } from "react";
+import { AuthContext } from "@/context/AuthContext";
+import Loading from "@/common/Loading";
 
 
 const Login = () => {
@@ -32,6 +34,7 @@ const Login = () => {
     resolver: zodResolver(loginSchema),
   });
  
+
   const {
     handleSubmit,
     register,
@@ -55,7 +58,15 @@ const Login = () => {
     }
   };
 
-
+  const {isAuth} = useContext(AuthContext);
+  useEffect(()=>{
+      if (isAuth == true){
+        toast.success("Successfully Logged In")
+        navigate("/home",{replace: true})
+      }
+  },[isAuth])
+   if (isAuth == null) return <Loading />;
+   if (isAuth == true) return <Loading />;
   return (
     // 1. OUTER CONTAINER (Centering and Background)
     <div className="min-h-screen w-full flex justify-center items-center px-4">

@@ -12,7 +12,6 @@ import Hero from './page/Hero'
 import { AuthProvider } from './context/AuthContext'
 import ProtectedRoute from './common/ProtectedRoute'
 
-
 const router = createBrowserRouter([
   {
     path: "/",

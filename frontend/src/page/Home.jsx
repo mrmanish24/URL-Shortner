@@ -1,30 +1,30 @@
 
 import { Button } from "@/components/ui/button"
 import { AuthContext } from "@/context/AuthContext"
-import axios from "axios"
 import { useContext } from "react"
-import { useNavigate } from "react-router-dom"
 
-import { toast } from "sonner"
 const Home = () => {
-  const navigate = useNavigate()
-  const {user} = useContext(AuthContext);
-  const handleClick = async () =>{
-    try {
-     await axios.post("http://localhost:9034/api/v1/logout",user ,{
-      withCredentials : true
-     });
-     toast.success("Logged Out")
-     navigate("/login")
-    } catch (error) {
-      toast.error(error.response.data.message)
-    }
-  }
+  const {user,logoutUser} = useContext(AuthContext);
+  const username = user.user.name;
   return (
-    <div>
-      welcome to Home 
-      <Button variant="destructive" onClick={handleClick}>Logout</Button>
+    <div className="">
+      <div className="flex justify-center items-center h-screen">
+        <div className="flex flex-col">
+          <h1>
+            welcome to Home{" "}
+            <span className="font-bold text-2xl text-primary">
+              {" "}
+              {username.toUpperCase()}
+            </span>
+          </h1>
+          <div className="flex justify-center items-center mt-5">
+            <Button variant="destructive" onClick={logoutUser}>
+              Logout
+            </Button>
+          </div>
+        </div>
+      </div>
     </div>
-  )
+  );
 }
 export default Home

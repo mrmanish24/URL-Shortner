@@ -44,7 +44,13 @@ const VerifyOtp = () => {
         withCredentials: true
       });
       toast.success(data?.message)
-      await fetchUser();
+      console.log("fetching user after verifying otp")
+      try {
+        await fetchUser();
+      } catch (error) {
+        console.log("fetchuser failed after verifying otp", error)
+      }
+      
       navigate("/home");
     } catch (error) {
       toast.error(error?.response?.error?.message)

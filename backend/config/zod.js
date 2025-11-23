@@ -1,6 +1,8 @@
 
 import { email } from "zod";
 import {z} from "zod";
+
+
 const registerSchema = z.object({
     name : z.string().min(3,"name must be 3 character long"),
     email : z.string().email("invalid email format"),

@@ -1,6 +1,8 @@
 import nodemailer from "nodemailer";
 
 const sendMail = async ({email, subject, html})=>{
+
+
 const transport = nodemailer.createTransport({
   service: "gmail",
   port: 465,
@@ -16,6 +18,7 @@ const receiver = {
     subject,
     html
 }
+
     await transport.sendMail(receiver,(error, mailresponse)=>{
     if(error){
         console.log("error occur in sending the mail")
