@@ -16,47 +16,71 @@ import {
   FieldSet,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import {  registerSchema } from "@/config/zod";
+import { registerSchema } from "@/config/zod";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Lock, MessageCircle, MessageCircleHeart, Projector, User } from "lucide-react";
+import {
+  Lock,
+  MessageCircle,
+  MessageCircleHeart,
+  Projector,
+  User,
+} from "lucide-react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { toast } from "sonner";
 
 
 
 const Register = () => {
+
+
   const methods = useForm({
     resolver: zodResolver(registerSchema),
-    mode : "onBlur"
+    mode: "onBlur",
   });
+
   const {
     handleSubmit,
     register,
     formState: { isSubmitting, errors },
   } = methods;
 
+
   const onSubmit = async (data) => {
     console.log(data)
+    try {
+      const response = await axios.post(
+        "http://localhost:9034/api/v1/register",
+        data,
+        {
+          withCredentials: true,
+        }
+      );
+      toast.success(response?.data?.message);
+    } catch (err) {
+      console.log(err);
+      toast.info(err?.response?.data?.message);
+    }
   };
-
   return (
     // 1. OUTER CONTAINER (Centering and Background)
     <div className="min-h-screen w-full flex justify-center items-center px-4">
       <FormProvider {...methods}>
         {/* 2. CARD CONTAINER (Sizing and Appearance) */}
-        <Card className="w-full max-w-xs sm:max-w-sm  md:max-w-md px-4 py-6 sm:px-6 sm:py-8">
-          {/* 3. CARD HEADER (Title and Link) */}
-          <CardHeader>
-            <CardTitle className="text-2xl font-bold text-foreground">
-              Create Account
-            </CardTitle>
-            <CardDescription className="text-muted-foreground">
-              Enter your email below to create to your account
-            </CardDescription>
-          </CardHeader>
+       
+          <Card className="w-full max-w-xs sm:max-w-sm  md:max-w-md px-4 py-6 sm:px-6 sm:py-8">
+             <form onSubmit={handleSubmit(onSubmit)}>
+            {/* 3. CARD HEADER (Title and Link) */}
+            <CardHeader>
+              <CardTitle className="text-2xl font-bold text-foreground">
+                Create Account
+              </CardTitle>
+              <CardDescription className="text-muted-foreground">
+                Enter your email below to create to your account
+              </CardDescription>
+            </CardHeader>
 
-          <form onSubmit={handleSubmit(onSubmit)}>
             {/* 4. CARD CONTENT (Inputs and Spacing) */}
             <CardContent className="">
               <FieldSet>
@@ -71,13 +95,11 @@ const Register = () => {
                       type="text"
                       placeholder="username"
                       className=""
-                      {...register("username", {
+                      {...register("name", {
                         required: "username is required",
                       })}
                     />
-                    <FieldError className="">
-                      {errors.username?.message}
-                    </FieldError>
+                    <FieldError className="">{errors.name?.message}</FieldError>
                   </Field>
 
                   <Field>
@@ -129,12 +151,12 @@ const Register = () => {
                 </CardAction>
               </div>
             </CardFooter>
-          </form>
-        </Card>
+              </form>
+          </Card>
+      
       </FormProvider>
     </div>
   );
 };
-
 
 export default Register;

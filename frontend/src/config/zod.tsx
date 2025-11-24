@@ -7,7 +7,7 @@ export const loginSchema = z.object({
 
 
 export const registerSchema = z.object({
-username : z.string().min(4,"Minium 4 char required"),
+  name : z.string().min(4,"Minium 4 char required"),
   email: z.string().email("Invalid email format"),
   password: z.string().min(4, "Minimum 4 char required"),
 });

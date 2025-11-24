@@ -19,7 +19,7 @@ import { Input } from "@/components/ui/input";
 import { loginSchema } from "@/config/zod";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Lock, MessageCircleHeart } from "lucide-react";
+import { Lock, MailCheck, MailIcon, MessageCircleHeart } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "sonner";
@@ -90,7 +90,7 @@ const Login = () => {
                 <FieldGroup>
                   <Field>
                     <FieldLabel htmlFor="email">
-                      <MessageCircleHeart /> Email Address
+                      <MailIcon /> Email Address
                     </FieldLabel>
                     <Input
                       id="email"

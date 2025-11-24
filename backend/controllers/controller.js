@@ -29,15 +29,15 @@ import { generateCSRFToken } from "../config/csrfMiddleware.js";
 // Validating shape using Zod/Joi
 
 
+
 export const registerUser = async (req, res) => {
   console.log("registerUser route called");
-
   // step 1 : data sanitize
   const sanitizeData = sanitize(req.body);
   // step 2 data validation
   let validation = registerSchema.safeParse(sanitizeData); // throw object if error
-
   if (!validation.success) {
+    console.log("validation error occur")
     let zodError = validation.error;
     return res.status(400).json({
       success: false,
@@ -49,7 +49,6 @@ export const registerUser = async (req, res) => {
 
   //step 3: check rate limit
   const rateLimitkey = `register-rate-limit:${res.ip}:${email}`; //key for storing rate limit
-
   //if rate limit exist this if block will run.
   if (await redisClient.get(rateLimitkey)) {
     return res.status(429).json({                     
@@ -61,6 +60,7 @@ export const registerUser = async (req, res) => {
   const checkUser = await User.findOne({ email });
 
   if (checkUser) {
+    console.log(`message: "user already exist"`)
     return res.status(400).json({
       message: "user already exist",
     });
@@ -90,8 +90,8 @@ export const registerUser = async (req, res) => {
   //creating email layout
   const html = getVerifyEmailHtml({ email, token: verifyToken });
   //step 10 : sending mail and set rate limit for 1 min
+  console.log("sending mail")
   await TryCaught(sendMail({ email, subject, html }));
-
 // set Rate limit
   await redisClient.set(rateLimitkey, "true", { EX: 60 });
 
@@ -293,17 +293,19 @@ res.clearCookie("refreshToken");
 res.clearCookie("accessToken");
 res.clearCookie("csrfToken");
 await redisClient.del(`user:${userId}`);
+await redisClient.del(`refresh-token-key:${userId}`);
+await redisClient.del(`csrfkey:${userId}`);
+
 console.log("logout successfully")
 res.json({
   message: "logout successfully"
 })
 })
 
-
 export const refreshCSRF = TryCaught(async(req,res)=>{
-
   const userId = req.user._id
   const newCSRFToken = await generateCSRFToken(userId,res);
+   console.log("newCsrfToken :", newCSRFToken);
 
   res.json({
     message : "CSRF token refreshed",

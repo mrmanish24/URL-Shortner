@@ -19,7 +19,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { AuthContext } from "@/context/AuthContext";
 import axios from "axios";
-import { useContext } from "react";
+// import { useContext } from "react";
 
 import { FormProvider, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
@@ -29,7 +29,7 @@ const VerifyOtp = () => {
   const navigate = useNavigate();
   const methods = useForm({
   });
-  const {fetchUser} = useContext(AuthContext);
+  // const {fetchUser} = useContext(AuthContext);
   const {
     handleSubmit,
     register,
@@ -45,11 +45,11 @@ const VerifyOtp = () => {
       });
       toast.success(data?.message)
       console.log("fetching user after verifying otp")
-      try {
-        await fetchUser();
-      } catch (error) {
-        console.log("fetchuser failed after verifying otp", error)
-      }
+      // try {
+      //   await fetchUser();
+      // } catch (error) {
+      //   console.log("fetchuser failed after verifying otp", error)
+      // }
       
       navigate("/home");
     } catch (error) {

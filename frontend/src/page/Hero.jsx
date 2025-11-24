@@ -23,7 +23,6 @@ const Hero = () => {
         <Link to="/login">
           <button className="bg-muted text-muted-foreground border border-border rounded-lg font-medium px-6 py-3 hover:bg-accent hover:text-accent-foreground transition-all">
             Login
-            
           </button>
         </Link>
       </div>

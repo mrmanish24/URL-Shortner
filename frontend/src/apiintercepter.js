@@ -1,19 +1,18 @@
 import axios from "axios";
 const server = "http://localhost:9034";
 
-
-const getCookie = (name) =>{
-  const value = `;${document.cookie}`;
-  const parts = value.split(`; ${name}=`)
-  if(parts.length ===2) return parts.pop().split(";").shift();
-}
-
+export const getCookie = (name) => {
+  return document.cookie
+    .split("; ")
+    .find((c) => c.startsWith(name + "="))
+    ?.split("=")[1];
+};
 //instence of axios
+
 const api = axios.create({
   baseURL: server,
   withCredentials: true,
 });
-
 
 api.interceptors.request.use(
   (config) =>{
@@ -24,12 +23,17 @@ api.interceptors.request.use(
       if(csrfToken){
         config.headers["x-csrf-token"] = csrfToken;
       }
+      else{
+          console.log("no csrf token found");
+      }
     }
     return config;
   },(error)=>{
     return Promise.reject(error);
   }
 )
+
+
 
 //helpers
 let isRefreshing = false;
@@ -48,8 +52,7 @@ const processCSRFQueue = (error, token = null) => {
     }
   });
   csrfFailedQueue = [];
-}; 
-
+};
 
 const processQueue = (error, token = null) => {
   console.log("processQueue resolving");
@@ -78,12 +81,8 @@ api.interceptors.response.use(
       } 
      console.log("error code :", errorCode)
 
-
-
-
       if ( errorCode && errorCode.startsWith("CSRF_")){
         console.log("csrf error code found")
-
         if(isRefreshingCSRF){
           console.log("pushing request to csrfFailed queue")
            return new Promise((resolve, reject) => {

@@ -13,8 +13,7 @@ userRouter.post("/verify",verifyOtp)
 userRouter.get("/me",isAuth,myProfile);
 userRouter.post("/refresh",refreshToken);
 userRouter.post("/logout",isAuth,verifyCSRFToken, logoutUser);
-userRouter.post("/refresh-csrf",verifyRefreshToken, refreshCSRF);
-
+userRouter.post("/refresh-csrf",isAuth,verifyRefreshToken, refreshCSRF);
 
 userRouter.get("/", TryCaught((req, res)=>{
  console.log("userRouter working ");

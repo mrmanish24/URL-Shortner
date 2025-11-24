@@ -4,6 +4,7 @@ import User from "../model/User.js";
 
 //Auth middleware
 export const isAuth = async (req,res,next) =>{
+    console.log("auth check is triggered")
 try{
     //checking if user is loggedin  mean have accessotken
     const token = req.cookies.accessToken;
@@ -27,6 +28,8 @@ try{
     const cacheUser = await redisClient.get(`user:${decodedData.id}`);
     if(cacheUser){
         req.user = JSON.parse(cacheUser);
+        console.log(`user from redis: ${cacheUser}`)
+        console.log("auth successfull")
         return next();
     }
     
@@ -38,8 +41,9 @@ try{
         })
     }
     await redisClient.setEx(`user:${user.id}`,3600, JSON.stringify(user));
-
     req.user = user;
+    console.log("auth check success");
+
     next();
 
 }
