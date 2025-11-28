@@ -6,6 +6,7 @@ import { globalErrorHandler, TryCaught } from "./middleware/middleware.js";
 import { createClient } from "redis";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import { urlRouter } from "./routes/urlRouter.js";
 
 
 
@@ -64,6 +65,7 @@ app.use((err, req, res, next) => {
 
 //linking routes
 app.use("/api/v1",userRouter)
+app.use("/api/v2/url",urlRouter);
 
 //connect DB
 connectDB(URL);

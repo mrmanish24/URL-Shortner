@@ -4,7 +4,8 @@ import User from "../model/User.js";
 
 //Auth middleware
 export const isAuth = async (req,res,next) =>{
-    console.log("auth check is triggered")
+    console.log("auth check is triggered");
+    
 try{
     //checking if user is loggedin  mean have accessotken
     const token = req.cookies.accessToken;
@@ -13,7 +14,7 @@ try{
         return res.status(403).json({
             code : "NO_TOKEN_FOUND",
             message : "please login, no token found"
-        })
+        });
     }
     //decoding accesstoken = userId
     const decodedData = jwt.verify(token, process.env.JWT_SECRET);
@@ -23,7 +24,6 @@ try{
             message: "token is expried"
         })
     }
-
     //if user is already cache send user to the myprofile or whereevery needed
     const cacheUser = await redisClient.get(`user:${decodedData.id}`);
     if(cacheUser){
@@ -43,9 +43,7 @@ try{
     await redisClient.setEx(`user:${user.id}`,3600, JSON.stringify(user));
     req.user = user;
     console.log("auth check success");
-
     next();
-
 }
 catch(err)
 {
@@ -55,4 +53,16 @@ catch(err)
         }
     )
 }
+}
+
+export const authorizedAdmin = async (req,res,next) =>{
+    const user = req.user;
+
+    if(user.role != "admin"){
+        return res.status(401).json({
+            message : "you are not allowed for this activity",
+        })
+    }
+    console.log("admin check successfull")
+    next();
 }

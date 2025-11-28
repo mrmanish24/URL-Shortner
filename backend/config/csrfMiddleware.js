@@ -2,10 +2,10 @@ import crypto from "crypto";
 import { redisClient } from "../index.js";
 
 export const generateCSRFToken = async (userId, res) => {
+  console.log("generating csrf token")
   const csrfToken = crypto.randomBytes(32).toString("hex");
   const csrfkey = `csrfkey:${userId}`;
   await redisClient.setEx(csrfkey, 3600, csrfToken);
-
   res.cookie("csrfToken", csrfToken, {
     httpOnly: false,
     secure: false,
@@ -15,9 +15,10 @@ export const generateCSRFToken = async (userId, res) => {
   return csrfToken;
 };
 
+
+
 export const verifyCSRFToken = async (req, res, next) => {
   console.log("verification csrf processing.....")
-
   try {
     if (req.method === "GET") {
       return next();
@@ -34,6 +35,7 @@ export const verifyCSRFToken = async (req, res, next) => {
     }
     const clientToken = req.headers["x-csrf-token"];
     if (!clientToken) {
+      console.log("csrf token not found")
       return res.status(403).json({
         message: "CSRF Token missing. Please refresh the page.",
         code: "CSRF_TOKEN_MISSING",
@@ -49,7 +51,9 @@ export const verifyCSRFToken = async (req, res, next) => {
         code: "CSRF_TOKEN_EXPIRED",
       });
     }
+
     if (storedToken !== clientToken) {
+      console.log("storedtoken != CLIENT TOKEN")
       return res.status(403).json({
         message: "Invalid CSRF Token. Please refresh the page.",
         code: "CSRF_TOKEN_INVALID",
@@ -67,6 +71,7 @@ export const revokeCSRFTOKEN = async (userId) => {
   const csrfkey = `csrfkey:${userId}`;
   await redisClient.del(csrfkey);
 };
+
 
 export const refreshCSRFToken = async (userId, res) => {
   await revokeCSRFTOKEN(userId);

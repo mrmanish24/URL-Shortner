@@ -66,7 +66,6 @@ const processQueue = (error, token = null) => {
   failedQueue = [];
 };
 
-
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
@@ -80,11 +79,10 @@ api.interceptors.response.use(
         console.log("errorcode is empty")
       } 
      console.log("error code :", errorCode)
-
       if ( errorCode && errorCode.startsWith("CSRF_")){
-        console.log("csrf error code found")
+        console.log("csrf error code found");
         if(isRefreshingCSRF){
-          console.log("pushing request to csrfFailed queue")
+          console.log("pushing request to csrfFailed queue");
            return new Promise((resolve, reject) => {
              csrfFailedQueue.push({ resolve, reject });
            }).then(() => {
@@ -94,23 +92,22 @@ api.interceptors.response.use(
         originalRequest._retry = true;
         isRefreshingCSRF = true;
         try {
-          console.log("refreshing csrf token then processing csrf failed queue")
-          await api.post("api/v1/refresh-csrf");
+          console.log("refreshing csrf token then processing csrf failed queue");
+          const csrfTokenfromapi = await api.post("/api/v1/refresh-csrf");
+          console.log("csrftoken :",csrfTokenfromapi);
           processCSRFQueue(null);
         } catch (error) {
-          processCSRFQueue(error)
+          processCSRFQueue(error);
           console.error("Failed to refresh csrf token",error);
-          return Promise.reject(error)
+          return Promise.reject(error);
         }
         finally{
           isRefreshingCSRF = false;
         }
       }
 
-
-
       if (isRefreshing) {
-        console.log("pushing request to failed queue")
+        console.log("pushing request to failed queue");
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject });
         }).then(() => {return api(originalRequest);}); 
@@ -120,8 +117,9 @@ api.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        console.log("refreshing accesstoken then processing failed request");
-        await api.post("/api/v1/refresh");
+      console.log("refreshing accesstoken");
+      const accesstoken =  await api.post("/api/v1/refresh");
+      console.log("accesstoken", accesstoken)
         processQueue(null)
         return api(originalRequest) 
       } catch (error) {
