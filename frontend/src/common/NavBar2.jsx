@@ -1,4 +1,3 @@
-
 import { Book, Menu, Sunset, Trees, Zap } from "lucide-react";
 
 import {
@@ -25,18 +24,15 @@ import {
 } from "@/components/ui/sheet";
 import { ModeToggle } from "@/mycomponents/ModeToggle";
 import { Link } from "react-router-dom";
-import { useContext } from "react";
-import { AuthContext } from "@/context/AuthContext";
 
-
-
-const Navbar1 = ({
+const Navbar2 = ({
   logo = {
     url: "https://www.shadcnblocks.com",
     src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/shadcnblockscom-icon.svg",
     alt: "logo",
     title: "LinkFlow",
   },
+
   menu = [
     { title: "Home", url: "/" },
     {
@@ -101,26 +97,14 @@ const Navbar1 = ({
         },
       ],
     },
-
-    {
-      title: "Shortner",
-      url: "/home",
-    },
-    {
-      title: "Analytics",
-      url: "/analytics",
-    },
   ],
 
   auth = {
-    hello: { title: "Hello", url: "#" },
-    logout: { title: "Logout", url: "#" },
+    login: { title: "Login", url: "/login" },
+    signup: { title: "Sign up", url: "/register" },
   },
 
 }) => {
-
-  const {logoutUser} = useContext(AuthContext);
-
   return (
     <section className="py-4 absolute top-0 left-0 w-full">
       <div className="container mx-auto">
@@ -143,18 +127,18 @@ const Navbar1 = ({
 
             <div className="flex items-center">
               <NavigationMenu>
-                <NavigationMenuList >
+                <NavigationMenuList>
                   {menu.map((item) => renderMenuItem(item))}
                 </NavigationMenuList>
               </NavigationMenu>
             </div>
           </div>
-          <div className="flex gap-2 items-center">
-            <Button  variant="outline" size="sm">
-              {auth.hello.title}
+          <div className="flex gap-2 items-center dark:text-accent-foreground">
+            <Button asChild variant="outline" size="sm">
+              <Link to={auth.login.url}>{auth.login.title}</Link>
             </Button>
-            <Button  onClick={logoutUser} size="sm">
-              {auth.logout.title}
+            <Button asChild size="sm">
+              <Link to={auth.signup.url}>{auth.signup.title}</Link>
             </Button>
             <ModeToggle />
           </div>
@@ -199,11 +183,13 @@ const Navbar1 = ({
                     {menu.map((item) => renderMobileMenuItem(item))}
                   </Accordion>
 
-                  <div className="flex flex-col gap-3">
-                    <Button  variant="outline">
-                      {auth.hello.title}
+                  <div className="flex flex-col gap-3 ">
+                    <Button asChild variant="outline ">
+                      <a href={auth.login.url}>{auth.login.title}</a>
                     </Button>
-                    <Button onClick={logoutUser}>{auth.logout.title}</Button>
+                    <Button asChild>
+                      <a href={auth.signup.url}>{auth.signup.title}</a>
+                    </Button>
                     <ModeToggle />
                   </div>
                 </div>
@@ -238,7 +224,7 @@ const renderMenuItem = (item) => {
     <NavigationMenuItem key={item.title}>
       <NavigationMenuLink
         href={item.url}
-        className="bg-background dark:text-accent-foreground hover:bg-muted hover:text-accent-foreground group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors"
+        className="bg-background hover:bg-muted dark:text-accent-foreground  hover:text-primary-foreground group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors"
       >
         {item.title}
       </NavigationMenuLink>
@@ -250,7 +236,7 @@ const renderMobileMenuItem = (item) => {
   if (item.items) {
     return (
       <AccordionItem key={item.title} value={item.title} className="border-b-0">
-        <AccordionTrigger className="text-md dark:text-accent-foreground py-0 font-semibold hover:no-underline">
+        <AccordionTrigger className="text-md py-0 font-semibold hover:no-underline dark:text-accent-foreground">
           {item.title}
         </AccordionTrigger>
         <AccordionContent className="mt-2">
@@ -263,7 +249,11 @@ const renderMobileMenuItem = (item) => {
   }
 
   return (
-    <a key={item.title} href={item.url} className="text-md dark:text-accent-foreground font-semibold">
+    <a
+      key={item.title}
+      href={item.url}
+      className="text-md font-semibold dark:text-accent-foreground"
+    >
       {item.title}
     </a>
   );
@@ -288,4 +278,4 @@ const SubMenuLink = ({ item }) => {
   );
 };
 
-export { Navbar1 };
+export { Navbar2 };

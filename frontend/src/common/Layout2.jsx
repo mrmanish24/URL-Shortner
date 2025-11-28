@@ -1,17 +1,16 @@
 
 import { Outlet } from "react-router-dom"
 import { Toaster } from "@/components/ui/sonner";
-import { Navbar1 } from "./NavBar";
+import { Navbar2 } from "./NavBar2";
 
-
-const Layout = () => {
+const Layout2 = () => {
   return (
     <div className="bg-background relative">
       {/* <ToastContainer position="top-right" /> */}
       <Toaster position="top-right" />
-      <Navbar1/>
+      <Navbar2 />
       <Outlet />
     </div>
   );
 }
-export default Layout;
+export default Layout2;

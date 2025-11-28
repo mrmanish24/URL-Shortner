@@ -3,6 +3,7 @@ import { createContext, useEffect, useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
+
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -38,8 +39,7 @@ export const AuthProvider = ({ children }) => {
       setIsLoading(false);
     }
   };
-
-
+  
   useEffect(() => {
     fetchUser();
   }, []);

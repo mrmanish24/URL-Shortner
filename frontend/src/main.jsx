@@ -12,6 +12,10 @@ import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./common/ProtectedRoute";
 import { ThemeProvider } from "./context/theme-provider";
 import VerifyAccount from "./page/VerifyAccount";
+import Home2 from "./page/Home2";
+import Analytics from "./page/Analytics";
+import Layout2 from "./common/Layout2";
+
 
 const router = createBrowserRouter([
   {
@@ -20,7 +24,9 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     element: (
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-        <Layout />
+        <AuthProvider>
+          <Layout2 />
+        </AuthProvider>
       </ThemeProvider>
     ),
     children: [
@@ -32,21 +38,22 @@ const router = createBrowserRouter([
       {
         path: "register",
         element: <Register />,
+        errorElement: <ErrorPage />,
       },
       {
         path: "verify",
         element: <VerifyOtp />,
+        errorElement: <ErrorPage />,
       },
       {
         path: "token/:token",
-        element: <VerifyAccount/>,
+        element: <VerifyAccount />,
+        errorElement: <ErrorPage />,
       },
     ],
   },
-
   {
     // auth route
-
     element: (
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
         <AuthProvider>
@@ -62,60 +69,25 @@ const router = createBrowserRouter([
       },
       {
         path: "home",
+        element: (
+          <ProtectedRoute>
+            <Home2 />
+          </ProtectedRoute>
+        ),
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "analytics",
         errorElement: <ErrorPage />,
         element: (
           <ProtectedRoute>
-            <Home/>
+            <Analytics />
           </ProtectedRoute>
         ),
       },
     ],
   },
 ]);
-
-// const router = createBrowserRouter([
-
-//   {
-//     path: "/",
-//     errorElement: <ErrorPage />,
-//     element: (
-//       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-//         <AuthProvider>
-//           <Layout />
-//         </AuthProvider>
-//       </ThemeProvider>
-//     ),
-//     children: [
-//       {
-//         index: true,
-//         element: <Hero />,
-//       },
-//       {
-//         path: "login",
-//         element: <Login />,
-//       },
-//       {
-//         path: "register",
-//         element: <Register />,
-//       },
-//       {
-//         path: "verify",
-//         element: <VerifyOtp />,
-//       },
-
-//       // 🔥 PROTECTED ROUTES START HERE
-//       {
-//         element: <ProtectedRoute />,
-//         children: [
-//           {
-//             path: "home",
-//             element: <Home />,
-//           },
-//         ],
-//       },
-//     ],
-//   },
-// ]);
 
 createRoot(document.getElementById("root")).render(
   <RouterProvider router={router} />

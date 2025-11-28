@@ -50,7 +50,7 @@ const Login = () => {
           withCredentials: true,
         }
       );
-      toast.success(data.message);
+      toast.success(data.message || "Verification is sent on your Mail");
       localStorage.setItem("email" ,formData.email)
       navigate("/verify");
     } catch (error) {
@@ -65,8 +65,7 @@ const Login = () => {
         navigate("/home",{replace: true})
       }
   },[isAuth])
-   if (isAuth == null) return <Loading />;
-   if (isAuth == true) return <Loading />;
+  
   return (
     // 1. OUTER CONTAINER (Centering and Background)
     <div className="min-h-screen w-full flex justify-center items-center px-4">

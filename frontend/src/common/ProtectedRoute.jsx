@@ -3,12 +3,10 @@ import { Children, useContext } from "react"
 import { Navigate, Outlet } from "react-router-dom"
 import Loading from "./Loading";
 import { toast } from "sonner";
-import { getCookie } from "@/apiintercepter";
-
 
 const ProtectedRoute = ({children}) => {
-const {isAuth,user, isLoading, logoutUser} = useContext(AuthContext);
 
+const {isAuth,user, isLoading} = useContext(AuthContext);
 if(isLoading){
   return (
     <div className="h-screen flex justify-center items-center">
@@ -16,7 +14,6 @@ if(isLoading){
     </div>
   );
 }
-
 console.log("protected route working","user:" ,user)
 
 if (isAuth === null){
@@ -24,7 +21,7 @@ if (isAuth === null){
 }
 
 if (isAuth === false) {
-  toast.info("Not Authenticated")
+  toast.info("Not Authenticated");
   return <Navigate to="/login" replace/>;
 }
 

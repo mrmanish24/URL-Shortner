@@ -6,7 +6,7 @@ import { useContext } from "react"
 
 const Home = () => {
   const {user,logoutUser} = useContext(AuthContext);
-
+  
   if (!user || !user.user) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -15,7 +15,8 @@ const Home = () => {
     );
   }
     const username = user.user.name;
-
+    const role = user.user.role
+  console.log(role);
   return (
     <div className="">
       <div className="flex justify-center items-center h-screen">
@@ -27,6 +28,9 @@ const Home = () => {
               {" "}
               {username.toUpperCase()}
             </span>
+            {user.user.role === "admin" && (
+              <span className="text-white"> I am admin</span>
+            )}
           </h1>
           <div className="flex justify-center items-center mt-5">
             <Button variant="destructive" className="cursor-pointer" onClick={logoutUser}>

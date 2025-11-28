@@ -269,8 +269,9 @@ export const refreshToken = TryCaught(async(req,res)=>{
     console.log("message: Invalid refresh token , refreshToken route")
     return res.status(401).json({
       message: "Invalid refresh token"
-    })
+    });
   }
+  console.log("refresh token", refreshToken)
   const decode = await verifyRefreshToken(refreshToken);
   if(!decode){
     console.log(`message: "Invalid refresh token", verifyRefreshtoken`);
@@ -303,13 +304,18 @@ res.json({
 })
 
 export const refreshCSRF = TryCaught(async(req,res)=>{
+  console.log("refreshing csrf")
   const userId = req.user._id
   const newCSRFToken = await generateCSRFToken(userId,res);
-   console.log("newCsrfToken :", newCSRFToken);
-
+  console.log("newCsrfToken :", newCSRFToken);
   res.json({
     message : "CSRF token refreshed",
     csrfToken : newCSRFToken,
   })
-
 });
+
+export const adminController = async(req,res)=>{
+  res.json({
+    message : "hello admin"
+  })
+}
