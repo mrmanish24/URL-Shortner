@@ -18,7 +18,6 @@ export async function handlePostUrl(req,res){
       shortId = body.shortUrlRoute.trim();
     }
 
-
     try {
       const checkUrlPresent = await URL.findOne({ shortId: shortId });
 
@@ -83,7 +82,6 @@ export async function handleRedirectUrl(req,res){
 export async function getAnalytics(req, res) {
   try {
     console.log("getAnalytics");
-
     const userId = req.user._id;
     if (!userId) {
       return res.status(401).json({ message: "not authorized" });

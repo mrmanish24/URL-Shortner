@@ -34,6 +34,7 @@ import { toast } from "sonner";
 
 const Register = () => {
 
+  const server = import.meta.env.VITE_BACKEND_URL;
 
   const methods = useForm({
     resolver: zodResolver(registerSchema),
@@ -51,7 +52,7 @@ const Register = () => {
     console.log(data)
     try {
       const response = await axios.post(
-        "http://localhost:9034/api/v1/register",
+        `${server}/api/v1/register`,
         data,
         {
           withCredentials: true,

@@ -25,6 +25,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 const UrlForm = () => {
+  const server = import.meta.env.VITE_BACKEND_URL;
   const [showUrl, setShowUrl] = useState(false);
   const [shortId, setShortId] = useState(null);
   const methods = useForm({
@@ -53,7 +54,7 @@ const UrlForm = () => {
   };
 
   const handleCopy = () =>{
-    const fullUrl =  `http://localhost:9034/api/v2/url/${shortId}`;
+    const fullUrl =  `${server}/api/v2/url/${shortId}`;
     navigator.clipboard.writeText(fullUrl);
     toast.info("shorted link is Copied")
   }

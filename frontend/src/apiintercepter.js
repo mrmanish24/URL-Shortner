@@ -1,5 +1,5 @@
 import axios from "axios";
-const server = "http://localhost:9034";
+const server = import.meta.env.VITE_BACKEND_URL;
 
 export const getCookie = (name) => {
   return document.cookie
