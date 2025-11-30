@@ -29,6 +29,8 @@ import Loading from "@/common/Loading";
 
 
 const Login = () => {
+
+  const server = import.meta.env.VITE_BACKEND_URL;
    const navigate = useNavigate();
   const methods = useForm({
     resolver: zodResolver(loginSchema),
@@ -44,7 +46,7 @@ const Login = () => {
   const onSubmit = async (formData) => {
     try {
       const { data } = await axios.post(
-        "http://localhost:9034/api/v1/login",
+        `${server}/api/v1/login`,
         formData,
         {
           withCredentials: true,

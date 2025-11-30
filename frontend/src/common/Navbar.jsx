@@ -122,7 +122,7 @@ const Navbar1 = ({
   const {logoutUser} = useContext(AuthContext);
 
   return (
-    <section className="py-4 absolute top-0 left-0 w-full">
+    <section className="py-4 sticky top-0 left-0 w-full">
       <div className="container mx-auto">
         {/* Desktop Menu */}
         <nav className="hidden items-center justify-between lg:flex">

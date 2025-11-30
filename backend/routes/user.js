@@ -4,7 +4,7 @@ import { registerUser, verifyUser, loginUser, verifyOtp, myProfile, refreshToken
 import { authorizedAdmin, isAuth } from "../middleware/isAuth.js";
 import { verifyRefreshToken } from "../config/generateToken.js";
 import { verifyCSRFToken } from "../config/csrfMiddleware.js";
-import { getAnalytics } from "../controllers/urlController.js";
+
 
 const userRouter = express.Router();
 userRouter.post("/register",TryCaught(registerUser));
@@ -24,6 +24,7 @@ userRouter.get("/", TryCaught((req, res)=>{
     message : "get method triggered successfully"
  });
 }));
+
 
 export {
     userRouter

@@ -1,4 +1,4 @@
-import api, { getCookie } from "@/apiintercepter";
+import api from "@/apiintercepter";
 import { createContext, useEffect, useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
