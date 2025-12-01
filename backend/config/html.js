@@ -124,7 +124,7 @@ img {
 <!-- Header -->
 <tr>
 <td class="header">
-<span class="brand">Authentication App</span>
+<span class="brand">Linkflow</span>
 </td>
 </tr>
 <!-- Body -->
@@ -132,7 +132,7 @@ img {
 <td class="p-32">
 <h1 class="title">Verify your email - ${email}</h1>
 <p class="text">
-Use the verification code below to complete your sign-in to Authentication App.
+Use the verification code below to complete your sign-in to Linkflow.
 </p>
 <!-- OTP -->
 <table role="presentation" class="otp-wrap" border="0" cellspacing="0" cellpadding="0">
@@ -149,7 +149,7 @@ Use the verification code below to complete your sign-in to Authentication App.
 <!-- Footer -->
 <tr>
 <td class="footer">
- 2025 Authentication App. All rights reserved.
+ 2025 Linkflow. All rights reserved.
 </td>
 </tr>
 <tr>
@@ -166,7 +166,7 @@ Use the verification code below to complete your sign-in to Authentication App.
 
 
 export const getVerifyEmailHtml = ({ email, token }) => {
-  const appName = process.env.APP_NAME || "Authentication App";
+  const appName = process.env.APP_NAME || "Linkflow";
   const baseUrl = process.env.FRONTEND_URL || "http://localhost:5173";
 
 //   3. encodeURIComponent(token)
