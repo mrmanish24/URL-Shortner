@@ -1,3 +1,6 @@
+import dotenv from "dotenv";
+
+dotenv.config();
 export const getOtpHtml = ({ email, otp }) => {
 
 const html = `<!DOCTYPE html>
@@ -164,10 +167,9 @@ Use the verification code below to complete your sign-in to Linkflow.
   return html;
 };
 
-
 export const getVerifyEmailHtml = ({ email, token }) => {
   const appName = process.env.APP_NAME || "Linkflow";
-  const baseUrl = process.env.FRONTEND_URL || "http://localhost:5173";
+  const baseUrl = process.env.FRONTEND_URL;
 
 //   3. encodeURIComponent(token)
 // Safely encodes the token so special characters don’t break the URL
