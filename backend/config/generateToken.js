@@ -1,6 +1,9 @@
 import jwt from "jsonwebtoken";
 import { redisClient } from "../index.js";
 import { generateCSRFToken, revokeCSRFTOKEN } from "./csrfMiddleware.js";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 export const generateToken = async (id, res) => {
   //generating accesstoken and refreshtoken
@@ -17,16 +20,16 @@ export const generateToken = async (id, res) => {
   //sending accesstoken and refresh token as cookie in browser
   res.cookie("accessToken", accessToken, {
     httpOnly: true,
-    secure: false,
-    sameSite: "lax", //get method will work and cookies will be sent eg. login to our site directly using google
+    secure: NODE_ENV === "production",
+    sameSite: "none", 
     maxAge: 60 * 15 * 1000,
   });
 
   
   res.cookie("refreshToken", refreshToken, {
     httpOnly: true,
-    secure: false,
-    sameSite: "lax",
+    secure: NODE_ENV === "production",
+    sameSite: "none",
     maxAge: 24 * 7 * 60 * 60 * 1000,
   });
 
@@ -55,8 +58,8 @@ export const generateAccessToken = (id, res) => {
 
   res.cookie("accessToken", accessToken, {
     httpOnly: true,
-    secure: false,
-    sameSite: "lax",
+    secure: NODE_ENV === "production",
+    sameSite: "none",
     maxAge: 60 * 1000 * 15,
   });
   return accessToken;
