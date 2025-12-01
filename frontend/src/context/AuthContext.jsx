@@ -12,6 +12,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
+
   const logoutUser = async () => {
     try {
       const { data } = await api.post("/api/v1/logout");
@@ -25,7 +26,11 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+
   const fetchUser = async () => {
+      if (isAuth === true) {
+        return;
+      }
     try {
       const { data } = await api.get("/api/v1/me");
       setIsAuth(true); // 👈 State update is scheduled, not executed yet. after render it will show
@@ -39,7 +44,6 @@ export const AuthProvider = ({ children }) => {
       setIsLoading(false);
     }
   };
-  
   useEffect(() => {
     fetchUser();
   }, []);

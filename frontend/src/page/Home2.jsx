@@ -10,9 +10,9 @@ const Home2 = ({
   description = "A lightning-fast, privacy-focused link shortener. Custom routes, instant redirects, zero complexity",
 
   buttons = {
-    primary: { text: "Shorten My Link", url: "/shorten" },
+    primary: { text: "Shorten My Link", url: "/" },
 
-    secondary: { text: "Try a Demo Link", url: "/demo" },
+    secondary: { text: "Try a Demo Link", url: "/" },
   },
 }) => {
   return (

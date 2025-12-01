@@ -36,11 +36,13 @@ const VerifyOtp = () => {
     formState: { isSubmitting, errors },
   } = methods;
 
+  const server = import.meta.env.VITE_BACKEND_URL
+
   const onSubmit = async (formData) => {
     const {otp} = formData;
     const email = localStorage.getItem("email")
     try {
-     const {data} = await axios.post("http://localhost:9034/api/v1/verify",{email, otp},{
+     const {data} = await axios.post(`${server}/api/v1/verify`,{email, otp},{
         withCredentials: true
       });
       console.log("verifyotp:",data)
@@ -52,7 +54,6 @@ const VerifyOtp = () => {
       toast.error(error?.response?.data?.message)
     }
   };
-
   return (
     // 1. OUTER CONTAINER (Centering and Background)
     <div className="min-h-screen w-full flex justify-center items-center px-4">

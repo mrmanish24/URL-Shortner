@@ -1,20 +1,23 @@
 import crypto from "crypto";
 import { redisClient } from "../index.js";
+import dotenv from "dotenv";
 
+dotenv.config();
+const isProduction = process.env.NODE_ENV === "production";
 export const generateCSRFToken = async (userId, res) => {
+  console.log(process.env.NODE_ENV, process.env.NODE_ENV==="production");
   console.log("generating csrf token")
   const csrfToken = crypto.randomBytes(32).toString("hex");
   const csrfkey = `csrfkey:${userId}`;
   await redisClient.setEx(csrfkey, 3600, csrfToken);
   res.cookie("csrfToken", csrfToken, {
     httpOnly: false,
-    secure: false,
-    sameSite: "lax",
+    secure: isProduction ? true : false,
+    sameSite: isProduction ? "none" : "lax",
     maxAge: 60 * 60 * 1000,
   });
   return csrfToken;
 };
-
 
 
 export const verifyCSRFToken = async (req, res, next) => {
