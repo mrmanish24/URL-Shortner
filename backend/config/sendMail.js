@@ -1,31 +1,53 @@
-import nodemailer from "nodemailer";
+// import nodemailer from "nodemailer";
 
-const sendMail = async ({email, subject, html})=>{
+// const sendMail = async ({email, subject, html})=>{
 
 
-const transport = nodemailer.createTransport({
-  service: "gmail",
-  port: 465,
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS,
-  },
-});
+// const transport = nodemailer.createTransport({
+//   service: "gmail",
+//   port: 465,
+//   auth: {
+//     user: process.env.SMTP_USER,
+//     pass: process.env.SMTP_PASS,
+//   },
+// });
 
-const receiver = {
-    from : "heymanishthakur@gmail.com",
-    to : email,
-    subject,
-    html
-}
+// const receiver = {
+//     from : "heymanishthakur@gmail.com",
+//     to : email,
+//     subject,
+//     html
+// }
 
-    await transport.sendMail(receiver,(error, mailresponse)=>{
-    if(error){
-        console.log("error occur in sending the mail")
-        throw error;
-    }
-    console.log("mail success");
-    return mailresponse;
-});
-}
+//     await transport.sendMail(receiver,(error, mailresponse)=>{
+//     if(error){
+//         console.log("error occur in sending the mail")
+//         throw error;
+//     }
+//     console.log("mail success");
+//     return mailresponse;
+// });
+// }
+// export default sendMail;
+
+import { Resend } from "resend";
+import dotenv from "dotenv";
+dotenv.config();
+const resend = new Resend(process.env.RESEND_API_KEY);
+
+const sendMail = async ({email,subject,html}) => {
+  const { data, error } = await resend.emails.send({
+    from: "Linkflow@devxera.com",
+    to: email,
+    subject: subject,
+    html: html,
+  });
+
+  if (error) {
+    return console.error({ error });
+  }
+
+  console.log({ data });
+};
+
 export default sendMail;

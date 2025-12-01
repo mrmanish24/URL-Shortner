@@ -170,7 +170,7 @@ export const loginUser = async (req, res)=>{
   const { email, password } = validation.data;
 
   //step 3: check rate limit
-  const rateLimitkey = `login-rate-limit:${res.ip}:${email}`;
+  const rateLimitkey = `login-rate-limit:${req.ip}:${email}`;
   if (await redisClient.get(rateLimitkey)) {
     return res.status(429).json({
       message: "too many attempts try after one minute",
@@ -185,7 +185,7 @@ export const loginUser = async (req, res)=>{
     });
   }
 // compare password
-  const comparepassword = bcrypt.compare(password, user.password);
+  const comparepassword = await bcrypt.compare(password, user.password);
   if (!comparepassword) {
     console.log("password not matched");
     return res.status(400).json({
@@ -203,7 +203,8 @@ export const loginUser = async (req, res)=>{
   const subject = "OTP for verification";
   const html = getOtpHtml({ email, otp });
 
-  await sendMail({ email, subject, html });
+  console.log("trying to send mail")
+  await TryCaught(sendMail({ email, subject, html }));
   await redisClient.set(rateLimitkey, "true", { EX: 60 });
 
   res.json({
