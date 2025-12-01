@@ -5,6 +5,8 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+const isProduction = process.env.NODE_ENV === "production";
+
 export const generateToken = async (id, res) => {
   //generating accesstoken and refreshtoken
   const accessToken = jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -18,18 +20,20 @@ export const generateToken = async (id, res) => {
   //store refreshkey in redis so we can regenerate accesstoken again
   await redisClient.setEx(refreshKey, 7 * 24 * 60 * 60, refreshToken);
   //sending accesstoken and refresh token as cookie in browser
+
+  console.log("setting accesstoken")
   res.cookie("accessToken", accessToken, {
     httpOnly: true,
-    secure: NODE_ENV === "production",
-    sameSite: "none", 
+    secure: isProduction ? true : false,
+    sameSite: isProduction ? "none" : "lax", 
     maxAge: 60 * 15 * 1000,
   });
 
   
   res.cookie("refreshToken", refreshToken, {
     httpOnly: true,
-    secure: NODE_ENV === "production",
-    sameSite: "none",
+    secure: isProduction ? true : false,
+    sameSite: isProduction ? "none" : "lax",
     maxAge: 24 * 7 * 60 * 60 * 1000,
   });
 
@@ -58,8 +62,8 @@ export const generateAccessToken = (id, res) => {
 
   res.cookie("accessToken", accessToken, {
     httpOnly: true,
-    secure: NODE_ENV === "production",
-    sameSite: "none",
+    secure: isProduction ? true : false,
+    sameSite: isProduction ? "none" : "lax",
     maxAge: 60 * 1000 * 15,
   });
   return accessToken;

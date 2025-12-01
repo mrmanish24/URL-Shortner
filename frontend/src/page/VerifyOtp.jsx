@@ -48,8 +48,7 @@ const VerifyOtp = () => {
       console.log("verifyotp:",data)
       toast.success(data?.message)
       console.log("fetching user after verifying otp")
-      const userdata = await fetchUser();
-      toast.info(`welcome ${userdata.data.user.name}`)
+      await fetchUser();
       navigate("/home");
     } catch (error) {
       toast.error(error?.response?.data?.message)
