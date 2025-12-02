@@ -3,9 +3,9 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
 
 const VerifyAccount = () => {
+  const server = import.meta.env.VITE_BACKEND_URL;
   const { token } = useParams();
   const [status, setStatus] = useState("loading");
   // loading | success | failed
@@ -14,7 +14,7 @@ const VerifyAccount = () => {
     const verifyEmail = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:9034/api/v1/verify/${token}`
+          `${server}/api/v1/verify/${token}`
         );
 
         // If backend says OK

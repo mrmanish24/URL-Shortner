@@ -161,7 +161,7 @@ const Navbar1 = ({
         </nav>
 
         {/* Mobile Menu */}
-        <div className="block lg:hidden">
+        <div className="block lg:hidden px-4">
           <div className="flex items-center justify-between">
             {/* Logo */}
             <Link to={logo.url} className="flex items-center gap-2">
