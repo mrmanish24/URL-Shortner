@@ -1,6 +1,5 @@
 
 import { Book, Menu, Sunset, Trees, Zap } from "lucide-react";
-
 import {
   Accordion,
   AccordionContent,
@@ -32,11 +31,12 @@ import { AuthContext } from "@/context/AuthContext";
 
 const Navbar1 = ({
   logo = {
-    url: "https://www.shadcnblocks.com",
+    url: "/",
     src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/shadcnblockscom-icon.svg",
     alt: "logo",
     title: "LinkFlow",
   },
+
   menu = [
     { title: "Home", url: "/" },
     {
@@ -164,7 +164,7 @@ const Navbar1 = ({
         <div className="block lg:hidden">
           <div className="flex items-center justify-between">
             {/* Logo */}
-            <Link href={logo.url} className="flex items-center gap-2">
+            <Link to={logo.url} className="flex items-center gap-2">
               <img
                 src={logo.src}
                 className="max-h-8 dark:invert"
@@ -198,7 +198,6 @@ const Navbar1 = ({
                   >
                     {menu.map((item) => renderMobileMenuItem(item))}
                   </Accordion>
-
                   <div className="flex flex-col gap-3">
                     <Button  variant="outline">
                       {auth.hello.title}
