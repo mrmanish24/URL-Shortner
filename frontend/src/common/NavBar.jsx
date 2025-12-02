@@ -31,11 +31,12 @@ import { AuthContext } from "@/context/AuthContext";
 
 const Navbar1 = ({
   logo = {
-    url: "https://www.shadcnblocks.com",
+    url: "/",
     src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/shadcnblockscom-icon.svg",
     alt: "logo",
     title: "LinkFlow",
   },
+
   menu = [
     { title: "Home", url: "/" },
     {

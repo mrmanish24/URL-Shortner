@@ -33,6 +33,7 @@ const Navbar2 = ({
     title: "LinkFlow",
   },
 
+
   menu = [
     { title: "Home", url: "/" },
     {
@@ -155,7 +156,6 @@ const Navbar2 = ({
                 alt={logo.alt}
               />
             </Link>
-
             <Sheet>
               <SheetTrigger asChild>
                 <Button variant="outline" size="icon">
